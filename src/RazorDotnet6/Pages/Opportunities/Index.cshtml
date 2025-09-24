@@ -1,0 +1,77 @@
+@page
+@model RazorDotnet6.Pages.Opportunities.IndexModel
+@{
+    ViewData["Title"] = "Opportunities";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Opportunities</h1>
+    <a asp-page="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Opportunity
+    </a>
+</div>
+
+@if (Model.Opportunities?.Any() == true)
+{
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Customer</th>
+                            <th>Stage</th>
+                            <th>Value</th>
+                            <th>Probability</th>
+                            <th>Expected Close</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var opportunity in Model.Opportunities)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@opportunity.Title</strong>
+                                    @if (!string.IsNullOrEmpty(opportunity.Description))
+                                    {
+                                        <br><small class="text-muted">@opportunity.Description</small>
+                                    }
+                                </td>
+                                <td>@opportunity.Customer?.FullName</td>
+                                <td><span class="badge bg-primary">@opportunity.Stage</span></td>
+                                <td>@opportunity.EstimatedValue.ToString("C")</td>
+                                <td>@opportunity.Probability%</td>
+                                <td>@opportunity.ExpectedCloseDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <span class="badge bg-@(opportunity.Status == "Open" ? "success" : opportunity.Status == "Won" ? "primary" : "secondary")">
+                                        @opportunity.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-page="Details" asp-route-id="@opportunity.Id" class="btn btn-outline-primary" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-page="Edit" asp-route-id="@opportunity.Id" class="btn btn-outline-secondary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        No opportunities found. <a asp-page="Create">Create your first opportunity</a>.
+    </div>
+}

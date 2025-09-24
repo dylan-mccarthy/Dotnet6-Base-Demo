@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Run All",
+    "Projects": [
+      {
+        "Path": "src\\APIDotnet6\\APIDotnet6.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\RazorDotnet6\\RazorDotnet6.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
